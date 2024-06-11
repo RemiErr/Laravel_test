@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /*
     Route 負責依照請求，將參數帶到不同頁面
 */
@@ -6,6 +7,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+=======
+
+use Illuminate\Support\Facades\Route;
+
+>>>>>>> dev-240517
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +26,7 @@ use App\Http\Controllers\ProductController;
 Route::get('/', function () {
     return view('welcome');
 });
+<<<<<<< HEAD
 
 // [] 陣列第二元素 = Controller 裡的 Function 名稱
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
@@ -34,3 +41,5 @@ Route::put('/product/{product}/update', [ProductController::class, 'update'])->n
 
 Route::delete('/product/{product}/destroy', [ProductController::class, 'destroy'])->name('product.destroy');
 
+=======
+>>>>>>> dev-240517

@@ -9,6 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
+<<<<<<< HEAD
     // 要確保這邊的元素應該和 migration 裡的一樣
     protected $fillable = [
         'name',
@@ -16,4 +17,21 @@ class Product extends Model
         'price',
         'description'
     ];
+=======
+    protected $table = 'products';
+    protected $primaryKey = 'product_id';
+    public $timestamps = true;
+
+    protected $fillable = [
+        'product_name',
+        'product_discription',
+        'product_price',
+        'product_discount'
+    ];
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_items', 'product_id', 'order_id');
+    }
+>>>>>>> dev-240517
 }
