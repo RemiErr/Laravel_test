@@ -24,4 +24,11 @@ class User extends Model
     protected $hidden = [
         'user_password',
     ];
+
+    // 有多個 -> orders
+    public function orders()
+    {
+        // Order 的 user_id = this.user_id
+        return $this->hasMany(Order::class, 'user_id', 'user_id');
+    }
 }
