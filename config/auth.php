@@ -2,6 +2,19 @@
 
 return [
 
+    // JWT登入驗證 API，driver 設為 passport
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+    
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

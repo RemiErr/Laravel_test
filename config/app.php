@@ -5,6 +5,12 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    // Passport 套件設定，實作 JWT 登入機制要用到
+    'providers' => [
+        // ...
+        Laravel\Passport\PassportServiceProvider::class,
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
