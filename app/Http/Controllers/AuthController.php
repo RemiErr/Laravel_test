@@ -11,13 +11,11 @@ class AuthController extends Controller
     {
         $request->validate([
             'user_name' => 'required|string',
-            'user_address' => 'required|string',
-            'user_phone' => 'required|string',
-            'user_email' => 'required|email',
             'user_password' => 'required|string',
         ]);
 
-        $credentials = request(['email', 'password']);
+        // 帳號密碼登入
+        $credentials = request(['username', 'password']);
 
         // 登入錯誤
         if (!Auth::attempt($credentials)) {
@@ -26,7 +24,10 @@ class AuthController extends Controller
             ], 401);
         }
 
+        // 取得請求體的 User 資料
         $user = $request->user();
+
+        // Json Web Token
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         $token->save();
