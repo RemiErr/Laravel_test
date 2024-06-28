@@ -11,8 +11,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'user_name' => 'required|string',
-            'user_password' => 'required|string',
+            'username' => 'required|string',
+            'password' => 'required|string',
         ]);
 
         // 帳號密碼登入
@@ -52,20 +52,20 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'user_name' => 'required|string',
-            'user_address' => 'required|string',
-            'user_phone' => 'required|string',
-            'user_email' => 'required|email',
-            'user_password' => 'required|string',
+            'name' => 'required|string',
+            'address' => 'required|string',
+            'phone' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string',
         ]);
 
         // 建立新使用者
         $user = User::create([
-            'name' => $request->user_name,
-            'address' => $request->user_address,
-            'phone' => $request->user_phone,
-            'email' => $request->user_email,
-            'password' => $request->user_password,
+            'user_name' => $request->name,
+            'user_address' => $request->address,
+            'user_phone' => $request->phone,
+            'user_email' => $request->email,
+            'user_password' => $request->password,
         ]);
 
         $tokenResult = $user->createToken('Personal Access Token');

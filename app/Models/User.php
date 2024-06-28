@@ -28,6 +28,51 @@ class User extends Model
         'user_password',
     ];
 
+    // 映射請求體屬性名稱
+    // setter
+    public function setNameAttribute($value)
+    {
+        $this->attributes['user_name'] = $value;
+    }
+    public function setAddressAttribute($value)
+    {
+        $this->attributes['user_address'] = $value;
+    }
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['user_phone'] = $value;
+    }
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['user_email'] = $value;
+    }
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['user_password'] = $value;
+    }
+
+    // getter
+    public function getNameAttribute()
+    {
+        return $this->attributes['user_name'];
+    }
+    public function getAddressAttribute()
+    {
+        return $this->attributes['user_address'];
+    }
+    public function getPhoneAttribute()
+    {
+        return $this->attributes['user_phone'];
+    }
+    public function getEmailAttribute()
+    {
+        return $this->attributes['user_email'];
+    }
+    public function getPasswordAttribute()
+    {
+        return $this->attributes['user_password'];
+    }
+
     // 有多個 -> orders
     public function orders()
     {
