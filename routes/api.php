@@ -21,3 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // JWT 登入用，定義登入登出路由
 Route::post('login', 'AuthController@login');
 Route::middleware('auth:api')->post('logout', 'AuthController@logout');
+
+// 註冊
+Route::post('register', 'AuthController@register');
