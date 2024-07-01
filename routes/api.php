@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // JWT 登入用，定義登入登出路由
-Route::post('login', 'AuthController@login');
-Route::middleware('auth:api')->post('logout', 'AuthController@logout');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+// Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']);
 
 // 註冊
-Route::post('register', 'AuthController@register');
+Route::post('/register', [AuthController::class, 'register']);
