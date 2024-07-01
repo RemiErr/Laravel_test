@@ -16,7 +16,10 @@ class AuthController extends Controller
         ]);
 
         // 帳號密碼登入
-        $credentials = request(['username', 'password']);
+        $credentials = request([
+            'name' => $request->username,
+            'password' => $request->password
+        ]);
 
         // 登入錯誤
         if (!Auth::attempt($credentials)) {
