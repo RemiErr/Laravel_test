@@ -5,12 +5,14 @@ namespace App\Models;
 // 引用 Passport 套件
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class User extends Authenticatable
 {
     // 使用到的特性
-    use HasFactory, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'users';
     protected $primaryKey = 'user_id';
