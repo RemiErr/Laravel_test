@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     // 使用到的特性
     use HasApiTokens, HasFactory, Notifiable;
@@ -80,5 +81,16 @@ class User extends Authenticatable
     {
         // Order 的 user_id = this.user_id
         return $this->hasMany(Order::class, 'user_id', 'user_id');
+    }
+
+
+    // tymon/jwt-auth 介面實作
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

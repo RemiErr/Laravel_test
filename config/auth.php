@@ -42,7 +42,7 @@ return [
     //     ],
     // ],
 
-    // JWT登入驗證 API，driver 設為 passport
+    // JWT登入驗證 API，driver 設為 jwt
     'guards' => [
         'web' => [
             'driver' => 'session',
@@ -50,7 +50,7 @@ return [
         ],
     
         'api' => [
-            'driver' => 'passport',
+            'driver' => 'jwt',
             'provider' => 'users',
         ],
     ],
