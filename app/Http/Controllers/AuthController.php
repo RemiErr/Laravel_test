@@ -3,64 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except('login', 'logout', 'register', 'me');
+    }
+
     public function login(Request $request)
     {
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
+        $credentials = request(['user_name', 'password']);
 
-        // 帳號密碼登入
-        $credentials = request([
-            'name' => $request->username,
-            'password' => $request->password
-        ]);
-
-        // 登入錯誤
-        if (!Auth::attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'status' => 'fail',
+                'message' => 'invalid credentials'
             ], 401);
         }
 
-        // 取得請求體的 User 資料
-        $user = $request->user();
-
-        // Json Web Token
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-        $token->save();
-
         return response()->json([
-            'access_token' => $tokenResult->accessToken,
+            'status' => 'success',
             'token_type' => 'Bearer',
-            'expires_at' => $token->expires_at->toDateTimeString(),
+            'token' => $token,
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        $request->user()->token()->revoke();
-
-        return response()->json([
-            'message' => 'Successfully logged out'
-        ]);
+        auth()->logout();
+        return response()->json(['status' => 'success']);
     }
 
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+        // $request->validate([
+        //     'user_name' => 'required|string',
+        //     'user_address' => 'required|string',
+        //     'user_phone' => 'required|string',
+        //     'user_email' => 'required|email',
+        //     'password' => 'required|string',
+        // ]);
 
         // 建立新使用者
         $user = User::create([
@@ -68,17 +54,32 @@ class AuthController extends Controller
             'user_address' => $request->address,
             'user_phone' => $request->phone,
             'user_email' => $request->email,
-            'user_password' => $request->password,
+            'user_password' => bcrypt($request->password),
         ]);
 
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
-        $token->save();
+        $token = auth()->login($user);
+        $user->save();
 
         return response()->json([
-            'access_token' => $tokenResult->accessToken,
+            'status' => 'success',
             'token_type' => 'Bearer',
-            'expires_at' => $token->expires_at->toDateTimeString(),
+            'token' => $token,
         ]);
+    }
+
+    public function me(Request $request)
+    {
+        $token = $request->token;
+        $user = JWTAuth::setToken($token)->toUser();
+        if (count((array)$user) > 0) {
+            return response()->json([
+                'status' => 'success',
+                'user' => $user
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'fail'
+            ], 401);
+        }
     }
 }
