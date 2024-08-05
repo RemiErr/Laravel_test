@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,5 +35,10 @@ Route::post('/register', [AuthController::class, 'register']);
 
 // 編輯
 Route::put('/user/{id}', [AuthController::class, 'editUser']);
-
 Route::delete('/user/{id}', [AuthController::class, 'delUser']);
+
+
+// Product Router
+Route::post('/product', [ProductController::class, 'create']);
+Route::put('/product/{id}', [ProductController::class, 'editProd']);
+Route::delete('/product/{id}', [ProductController::class, 'delProd']);
