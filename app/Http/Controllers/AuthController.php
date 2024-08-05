@@ -13,7 +13,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('login', 'logout', 'register', 'me');
+        $this->middleware('auth:api')->except('login', 'logout', 'register', 'me', 'userId', 'editUser', 'delUser');
     }
 
     public function login(Request $request)
@@ -115,5 +115,70 @@ class AuthController extends Controller
                 'status' => 401
             ], 401);
         }
+    }
+
+    public function userId(Request $request)
+    {
+        $token = $request->token;
+        $user = JWTAuth::setToken($token)->toUser();
+        
+        if (count((array)$user) > 0) {
+            return response()->json([
+                'status' => 200,
+                'user_id' => $user->user_id
+            ]);
+        } else {
+            return response()->json([
+                'status' => 401
+            ], 401);
+        }
+    }
+
+    public function editUser(Request $request, $id) {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'user_name' => 'required|string',
+                'user_address' => 'string',
+                'user_phone' => 'string',
+                'user_email' => 'email',
+                'password' => 'required|string',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Parameters Error',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        $user = User::find($id);
+        $user->update($request->all());
+
+        return response()->json([
+            'status' => 200,
+            'token_type' => 'Bearer',
+        ]);
+    }
+
+    public function delUser($id) {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'User does not exist',
+            ], 400);
+        }
+
+        $user->delete();
+        // auth()->logout();
+
+        return response()->json([
+            'status' => 200,
+            'token_type' => 'Bearer',
+        ]);
     }
 }

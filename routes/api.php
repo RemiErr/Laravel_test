@@ -23,7 +23,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/user', [AuthController::class, 'me']);
+
+// 暫時先取得當前ID
+Route::get('/user/id', [AuthController::class, 'userId']);
+
 // Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']);
 
 // 註冊
 Route::post('/register', [AuthController::class, 'register']);
+
+// 編輯
+Route::put('/user/{id}', [AuthController::class, 'editUser']);
+
+Route::delete('/user/{id}', [AuthController::class, 'delUser']);
