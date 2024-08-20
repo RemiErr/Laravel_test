@@ -12,9 +12,29 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('create', 'editProd', 'delProd', 'setDiscount');
+        $this->middleware('auth:api')->except('create', 'editProd', 'delProd', 'setDiscount', 'getAllProducts', 'getProduct');
     }
 
+    function getAllProducts() {
+        $products = Product::all();
+
+        return response()->json([
+            'status' => 200,
+            'data' => $products,
+            'token_type' => 'Bearer',
+        ]);
+    }
+
+    function getProduct($id) {
+        $product = Product::findOrFail($id);
+
+        return response()->json([
+            'status' => 200,
+            'data' => $product,
+            'token_type' => 'Bearer',
+        ]);
+        
+    }
 
     public function create(Request $request)
     {

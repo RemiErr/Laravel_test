@@ -41,6 +41,8 @@ Route::delete('/user/{id}', [AuthController::class, 'delUser']);
 
 
 // Product Router
+Route::get('/product', [ProductController::class, 'getAllProducts']);
+Route::get('/product/{id}', [ProductController::class, 'getProduct']);
 Route::post('/product', [ProductController::class, 'create']);
 Route::put('/product/{id}', [ProductController::class, 'editProd']);
 Route::delete('/product/{id}', [ProductController::class, 'delProd']);
