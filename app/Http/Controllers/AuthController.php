@@ -13,7 +13,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('login', 'logout', 'register', 'me', 'userId', 'editUser', 'delUser');
+        $this->middleware('auth:api')->except('login', 'logout', 'register', 'userId', 'editUser', 'delUser', 'getAllUsers', 'getUser');
     }
 
     public function login(Request $request)
@@ -100,21 +100,42 @@ class AuthController extends Controller
         ]);
     }
 
-    public function me(Request $request)
-    {
-        $token = $request->token;
-        $user = JWTAuth::setToken($token)->toUser();
+    // public function me(Request $request)
+    // {
+    //     $token = $request->token;
+    //     $user = JWTAuth::setToken($token)->toUser();
         
-        if (count((array)$user) > 0) {
-            return response()->json([
-                'status' => 200,
-                'user' => $user
-            ]);
-        } else {
-            return response()->json([
-                'status' => 401
-            ], 401);
-        }
+    //     if (count((array)$user) > 0) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'user' => $user
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'status' => 401
+    //         ], 401);
+    //     }
+    // }
+    
+    function getAllUsers(Request $request) {
+        $users = User::all();
+
+        return response()->json([
+            'status' => 200,
+            'data' => $users,
+            'token_type' => 'Bearer',
+        ]);
+    }
+
+    function getUser($id) {
+        $user = User::findOrFail($id);
+
+        return response()->json([
+            'status' => 200,
+            'data' => $user,
+            'token_type' => 'Bearer',
+        ]);
+        
     }
 
     public function userId(Request $request)

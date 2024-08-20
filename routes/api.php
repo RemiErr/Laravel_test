@@ -24,10 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // JWT 登入用，定義登入登出路由
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
-Route::get('/user', [AuthController::class, 'me']);
+Route::get('/user', [AuthController::class, 'getAllUsers']);
+Route::get('/user/{id}', [AuthController::class, 'getUser']);
 
 // 暫時先取得當前ID
-Route::get('/user/id', [AuthController::class, 'userId']);
+// Route::get('/user/id', [AuthController::class, 'userId']);
 
 // Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']);
 
