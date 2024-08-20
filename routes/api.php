@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +43,10 @@ Route::delete('/user/{id}', [AuthController::class, 'delUser']);
 Route::post('/product', [ProductController::class, 'create']);
 Route::put('/product/{id}', [ProductController::class, 'editProd']);
 Route::delete('/product/{id}', [ProductController::class, 'delProd']);
+
+// Order Router
+Route::post('/order', [OrderController::class, 'create']);
+Route::get('/order', [OrderController::class, 'getAllOrders']);
+Route::get('/order/{id}', [OrderController::class, 'getOrder']);
+Route::put('/order/{id}', [OrderController::class, 'editOrder']);
+Route::delete('/order/{id}', [OrderController::class, 'delOrder']);
