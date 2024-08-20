@@ -24,32 +24,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // JWT 登入用，定義登入登出路由
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
+
+// User Router
+Route::post('/register', [AuthController::class, 'register']);
 Route::get('/user', [AuthController::class, 'getAllUsers']);
 Route::get('/user/{id}', [AuthController::class, 'getUser']);
-
-// 暫時先取得當前ID
-// Route::get('/user/id', [AuthController::class, 'userId']);
-
-// Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']);
-
-// 註冊
-Route::post('/register', [AuthController::class, 'register']);
-
-// 編輯
 Route::put('/user/{id}', [AuthController::class, 'editUser']);
-Route::delete('/user/{id}', [AuthController::class, 'delUser']);
-
+Route::delete('/user/{id}', [AuthController::class, 'deleteUser']);
 
 // Product Router
+Route::post('/product', [ProductController::class, 'createProduct']);
 Route::get('/product', [ProductController::class, 'getAllProducts']);
 Route::get('/product/{id}', [ProductController::class, 'getProduct']);
-Route::post('/product', [ProductController::class, 'create']);
-Route::put('/product/{id}', [ProductController::class, 'editProd']);
-Route::delete('/product/{id}', [ProductController::class, 'delProd']);
+Route::put('/product/{id}', [ProductController::class, 'editProduct']);
+Route::delete('/product/{id}', [ProductController::class, 'deleteProduct']);
 
 // Order Router
-Route::post('/order', [OrderController::class, 'create']);
+Route::post('/order', [OrderController::class, 'createOrder']);
 Route::get('/order', [OrderController::class, 'getAllOrders']);
 Route::get('/order/{id}', [OrderController::class, 'getOrder']);
 Route::put('/order/{id}', [OrderController::class, 'editOrder']);
-Route::delete('/order/{id}', [OrderController::class, 'delOrder']);
+Route::delete('/order/{id}', [OrderController::class, 'deleteOrder']);

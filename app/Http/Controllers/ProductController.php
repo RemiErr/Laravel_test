@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('create', 'editProd', 'delProd', 'setDiscount', 'getAllProducts', 'getProduct');
+        $this->middleware('auth:api')->except('createProduct', 'editProduct', 'deleteProduct', 'getAllProducts', 'getProduct');
     }
 
     function getAllProducts() {
@@ -36,7 +36,7 @@ class ProductController extends Controller
         
     }
 
-    public function create(Request $request)
+    public function createProduct(Request $request)
     {
         $validator = Validator::make(
             $request->all(),
@@ -71,7 +71,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function editProd(Request $request, $id) {
+    public function editProduct(Request $request, $id) {
         $validator = Validator::make(
             $request->all(),
             [
@@ -105,7 +105,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function delProd($id) {
+    public function deleteProduct($id) {
         $prod = Product::find($id);
 
         if (!$prod) {

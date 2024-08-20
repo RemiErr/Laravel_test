@@ -13,7 +13,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('login', 'logout', 'register', 'userId', 'editUser', 'delUser', 'getAllUsers', 'getUser');
+        $this->middleware('auth:api')->except('login', 'logout', 'register', 'userId', 'editUser', 'deleteUser', 'getAllUsers', 'getUser');
     }
 
     public function login(Request $request)
@@ -99,23 +99,6 @@ class AuthController extends Controller
             'token' => $token,
         ]);
     }
-
-    // public function me(Request $request)
-    // {
-    //     $token = $request->token;
-    //     $user = JWTAuth::setToken($token)->toUser();
-        
-    //     if (count((array)$user) > 0) {
-    //         return response()->json([
-    //             'status' => 200,
-    //             'user' => $user
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'status' => 401
-    //         ], 401);
-    //     }
-    // }
     
     function getAllUsers(Request $request) {
         $users = User::all();
@@ -184,7 +167,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function delUser($id) {
+    public function deleteUser($id) {
         $user = User::find($id);
 
         if (!$user) {
@@ -195,7 +178,6 @@ class AuthController extends Controller
         }
 
         $user->delete();
-        // auth()->logout();
 
         return response()->json([
             'status' => 200,

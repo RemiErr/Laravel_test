@@ -12,10 +12,10 @@ class OrderController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('create', 'editOrder', 'delOrder', 'getAllOrders' ,'getOrder');
+        $this->middleware('auth:api')->except('createOrder', 'editOrder', 'deleteOrder', 'getAllOrders' ,'getOrder');
     }
 
-    public function create(Request $request)
+    public function createOrder(Request $request)
     {
         $validator = Validator::make(
             $request->all(),
@@ -73,7 +73,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function delOrder($id) {
+    public function deleteOrder($id) {
         $order = Order::find($id);
 
         if (!$order) {
