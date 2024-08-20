@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('create', 'editProd', 'delProd');
+        $this->middleware('auth:api')->except('create', 'editProd', 'delProd', 'setDiscount');
     }
 
 
@@ -36,7 +36,6 @@ class ProductController extends Controller
             ], 400);
         }
 
-        // 建立新使用者
         $prod = Product::create([
             'product_name' => $request->product_name,  
             'product_discription' => $request->product_discription,
@@ -59,7 +58,7 @@ class ProductController extends Controller
                 'product_name' => 'required|string',
                 'product_discription' => 'string',
                 'product_price' => 'required|integer',
-                'product_discount' => 'integer'
+                'product_discount' => 'nullable|integer'
             ]
         );
 
@@ -71,8 +70,14 @@ class ProductController extends Controller
             ], 400);
         }
 
-        $prod = Product::find($id);
+        $prod = Product::findOrFail($id);
         $prod->update($request->all());
+
+        // 設定折扣
+        if ($request->product_discount > 0) {
+            $prod->product_discount = $request->product_discount;
+            $prod->save();
+        }
 
         return response()->json([
             'status' => 200,
